@@ -80,3 +80,17 @@ kalloc(void)
     memset((char*)r, 5, PGSIZE); // fill with junk
   return (void*)r;
 }
+
+// Lab2.2 info功能辅助函数freebytes
+void freebytes(uint64* dst)
+{
+  *dst = 0;
+  struct run* p = kmem.freelist;
+
+  acquire(&kmem.lock); //加锁保障线程安全
+  while (p) {
+    *dst += PGSIZE; //统计空闲字节数
+    p = p->next;
+  }
+  release(&kmem.lock); //执行完毕释放锁
+}

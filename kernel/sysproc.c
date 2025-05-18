@@ -6,6 +6,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "sysinfo.h"
 
 uint64
 sys_exit(void)
@@ -96,6 +97,7 @@ sys_uptime(void)
   return xticks;
 }
 
+// Lab2.1 新增trace功能函数
 uint64
 sys_trace(void)
 {
@@ -104,5 +106,24 @@ sys_trace(void)
   if (argint(0, &mask) < 0) return -1;
 
   myproc()->syscall_trace = mask;
+  return 0;
+}
+
+// Lab2.2 新增info功能函数
+uint64
+sys_info(void)
+{
+  struct sysinfo info;
+  freebytes(&info.freemem); //获取空闲内存
+  procnum(&info.nproc); //获取进程数量
+
+  //获取用户虚拟地址
+  uint64 dstaddr;
+  argaddr(0, &dstaddr);
+
+  //从内核空间拷贝数据到用户空间
+  if (copyout(myproc()->pagetable, dstaddr, (char*)&info, sizeof(info)) < 0) {
+    return -1;
+  }
   return 0;
 }

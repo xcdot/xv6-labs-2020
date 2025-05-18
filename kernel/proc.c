@@ -697,3 +697,16 @@ procdump(void)
     printf("\n");
   }
 }
+
+// Lab2.2 info功能辅助函数procnum， 统计处于活动状态的进程
+void
+procnum(uint64* dst)
+{
+  *dst = 0;
+  struct proc* p;
+  for (p=proc; p<&proc[NPROC]; p++) {
+    if (p->state != UNUSED) {
+      (*dst)++;
+    }
+  }
+}
