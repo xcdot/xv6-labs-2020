@@ -440,3 +440,34 @@ copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
     return -1;
   }
 }
+
+// Lab 3.1 递归打印页表项
+int 
+pgtblprint(pagetable_t pagetable, int depth) {
+  //遍历所有的PTEs，总共2^9 = 512个。pagetable_t是页表指针，pte_t是页表项
+  for (int i=0; i<512; i++) {
+    pte_t pte = pagetable[i];
+
+    if (pte & PTE_V) { //如果页表项有效，按格式打印页表项,。PTE_V是宏，表示 页表项的Valid位(1L<<0)
+      printf("..");
+      for (int j=0; j<depth; ++j) {
+        printf(" ..");
+      }
+      printf("%d: pte %p pa %p\n", i, pte, PTE2PA(pte)); //PTE2PA，字面理解PTE to Physical Addr，是把页表项pte中提取出物理地址的宏(((pte) >> 10) << 12)
+
+      //如果该节点不是叶节点，递归打印子节点
+      //(pte & (PTE_R | PTE_W |PTE_X)) == 0意思是：R/W/X 权限位都没设，所以是中间节点
+      if ((pte & (PTE_R | PTE_W |PTE_X)) == 0) {
+        uint64 child = PTE2PA(pte);
+        pgtblprint((pagetable_t)child, depth+1);
+      }
+    }
+  }
+  return 0;
+}
+
+// Lab 3.1 打印页表
+int vmprint(pagetable_t pagetable) {
+  printf("page table %p\n", pagetable);
+  return pgtblprint(pagetable, 0);
+}

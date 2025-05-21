@@ -178,6 +178,7 @@ uint64          walkaddr(pagetable_t, uint64);
 int             copyout(pagetable_t, uint64, char *, uint64);
 int             copyin(pagetable_t, char *, uint64, uint64);
 int             copyinstr(pagetable_t, char *, uint64, uint64);
+int             vmprint(pagetable_t); //添加函数声明在头文件，因为pgtblprint是内部使用函数，无需暴露头文件声明
 
 // plic.c
 void            plicinit(void);
