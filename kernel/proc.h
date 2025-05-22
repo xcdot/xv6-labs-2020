@@ -103,4 +103,5 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+  pagetable_t kernel_pagetable_indep;     // Lab3.2 存储进程独享的内核态页表
 };

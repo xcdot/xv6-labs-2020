@@ -160,8 +160,8 @@ int             uartgetc(void);
 // vm.c
 void            kvminit(void);
 void            kvminithart(void);
-uint64          kvmpa(uint64);
-void            kvmmap(uint64, uint64, uint64, int);
+uint64          kvmpa(pagetable_t, uint64); //更新参数列表
+void            kvmmap(pagetable_t, uint64, uint64, uint64, int); //更新参数列表
 int             mappages(pagetable_t, uint64, uint64, uint64, int);
 pagetable_t     uvmcreate(void);
 void            uvminit(pagetable_t, uchar *, uint);
@@ -179,6 +179,9 @@ int             copyout(pagetable_t, uint64, char *, uint64);
 int             copyin(pagetable_t, char *, uint64, uint64);
 int             copyinstr(pagetable_t, char *, uint64, uint64);
 int             vmprint(pagetable_t); //添加函数声明在头文件，因为pgtblprint是内部使用函数，无需暴露头文件声明
+pagetable_t     kvminit_newpagetable(); //新增函数说明
+void            kvm_free_kernelpagetable(pagetable_t);
+void            kvm_map_pagetable(pagetable_t);
 
 // plic.c
 void            plicinit(void);
