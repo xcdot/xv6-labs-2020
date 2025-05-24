@@ -178,10 +178,17 @@ uint64          walkaddr(pagetable_t, uint64);
 int             copyout(pagetable_t, uint64, char *, uint64);
 int             copyin(pagetable_t, char *, uint64, uint64);
 int             copyinstr(pagetable_t, char *, uint64, uint64);
-int             vmprint(pagetable_t); //添加函数声明在头文件，因为pgtblprint是内部使用函数，无需暴露头文件声明
-pagetable_t     kvminit_newpagetable(); //新增函数说明
+int             vmprint(pagetable_t);
+pagetable_t     kvminit_newpagetable(); 
 void            kvm_free_kernelpagetable(pagetable_t);
 void            kvm_map_pagetable(pagetable_t);
+int             kvmcopymappings(pagetable_t, pagetable_t, uint64, uint64);
+uint64          kvmdealloc(pagetable_t, uint64, uint64);
+
+// vmcopyin.c
+int             statscopyin(char *, int);
+int             copyin_new(pagetable_t, char *, uint64, uint64);
+int             copyinstr_new(pagetable_t, char *, uint64, uint64);
 
 // plic.c
 void            plicinit(void);
