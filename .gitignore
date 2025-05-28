@@ -5,7 +5,10 @@ _*
 *.asm
 *.sym
 *.img
+<<<<<<< HEAD
 *.pyc
+=======
+>>>>>>> traps
 vectors.S
 bootblock
 entryother
@@ -19,3 +22,10 @@ user/usys.S
 myapi.key
 *-handin.tar.gz
 xv6.out*
+<<<<<<< HEAD
+=======
+.vagrant/
+submissions/
+ph
+barrier
+>>>>>>> traps
